@@ -7,7 +7,7 @@ module Spree
     end
 
     def confirmation_instructions(user, token, opts={})
-      @confirmation_url = spree.spree_user_confirmation_url(:confirmation_token => token, :host => Spree::Store.current.url)
+      @confirmation_url = spree.email_confirmation_url(:confirmation_token => token, :host => Spree::Store.current.url)
 
       mail to: user.email, from: from_address, subject: Spree::Store.current.name + ' ' + I18n.t(:subject, :scope => [:devise, :mailer, :confirmation_instructions])
     end
