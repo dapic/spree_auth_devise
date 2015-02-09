@@ -21,6 +21,7 @@ Devise.setup do |config|
   # parameters are used only when authenticating and not when retrieving from
   # session. If you need permissions, you should implement that in a before filter.
   # config.authentication_keys = [ :email ]
+  config.authentication_keys = [ :login ]
 
   # Tell if authentication through request.params is enabled. True by default.
   # config.params_authenticatable = true
@@ -133,5 +134,20 @@ Devise.setup do |config|
   config.reset_password_within = 6.hours
   config.sign_out_via = :get
 
-  config.case_insensitive_keys = [:email]
+  config.case_insensitive_keys = [:email, :phone]
+ # ==> Configuration for :sms_activable
+  # The period the generated sms token is valid, after
+  # this period, the user won't be able to activate.
+  # config.sms_confirm_within = 0.days
+
+  # The keys searched for confirmation values.
+  #config.sms_confirmation_keys = [:phone]
+
+  # Your SmsSender class. The provided one uses
+  # moonshado-sms gem so install it and configure
+  # if you want to use it.
+  # A simple instance of the class has been copied in your lib folder
+  # For further informations on using and configuring moonshado-sms gem check
+  # https://github.com/moonshado/moonshado-sms
+  #config.sms_sender = Devise::SmsSender
 end

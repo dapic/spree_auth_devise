@@ -3,9 +3,12 @@ module Spree
     include UserAddress
     include UserPaymentSource
 
+    attr_accessor :login
+#    binding.pry
     devise :database_authenticatable, :registerable, :recoverable,
            :rememberable, :trackable, :validatable, :encryptable, :encryptor => 'authlogic_sha512'
     devise :confirmable if Spree::Auth::Config[:confirmable]
+    devise :sms_activable
 
     acts_as_paranoid
     after_destroy :scramble_email_and_password
@@ -23,9 +26,28 @@ module Spree
       User.admin.count > 0
     end
 
+    def self.find_for_database_authentication(warden_conditions)
+      conditions = warden_conditions.dup
+      if login = conditions.delete(:login)
+        where(conditions.to_h).where(["lower(phone) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      else
+        where(conditions.to_h).first
+      end
+    end
+
     def admin?
       has_spree_role?('admin')
     end
+
+    def login
+      @login || self.email || self.phone
+    end
+
+    validates :phone,
+      presence: true,
+      uniqueness: { case_sensitive: false },
+      numericality: true,
+      length: { is: 11 }
 
     protected
       def password_required?
