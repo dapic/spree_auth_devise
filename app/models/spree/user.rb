@@ -107,7 +107,7 @@ module Spree
       end
 
       def phone_or_email
-        if (phone.blank? && email.blank?)
+        if (phone.blank? && email.blank? && user_authentications.empty? )
           errors.add(:base, '手机号或Email地址')
         end
       end
