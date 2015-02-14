@@ -72,7 +72,7 @@ class Spree::UserRegistrationsController < Devise::RegistrationsController
 
   # POST /resource/register_phone. this should be ajax
   def register_with_phone
-    binding.pry
+    # binding.pry
     if params[:create_sms_token]
       @user = build_resource(phone_sign_up_params)
       # resource.
