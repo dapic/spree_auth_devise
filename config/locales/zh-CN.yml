@@ -1,0 +1,63 @@
+---
+en:
+  spree:
+    admin_login: "Admin Login"
+  devise:
+    confirmations:
+      confirmed: Your account was successfully confirmed. You are now signed in.
+      send_instructions: You will receive an email with instructions about how to confirm your account in a few minutes.
+    failure:
+      inactive: Your account was not activated yet.
+      invalid: Invalid email or password.
+      invalid_token: Invalid authentication token.
+      locked: Your account is locked.
+      timeout: 'Your session expired, please sign in again to continue.'
+      unauthenticated: You need to sign in or sign up before continuing.
+      unconfirmed: You have to confirm your account before continuing.
+    mailer:
+      confirmation_instructions:
+        subject: 账户邮件地址确认
+      reset_password_instructions:
+        subject: 账户密码重置操作说明
+      unlock_instructions:
+        subject: 账户解锁操作说明
+    oauth_callbacks:
+      failure: '使用 %{kind} 账户登录失败，原因：%{reason}.'
+      success: '成功使用 %{kind} 账户登录。'
+    sms_activations:
+      send_token: '动态验证码已发至手机 %{phone}.'
+      sms_token_invalid: '无效的动态验证码。'
+      confirmed: '您的账户已成功激活，并登录成功。'
+      sms_activation_required: '需要动态验证码'
+      sms_body: '您的动态验证码为: %{sms_confirmation_token}。'
+      unconfirmed_sms: '您的账户尚未激活，请验证手机号以激活账户。'
+    unlocks:
+      send_instructions: You will receive an email with instructions about how to unlock your account in a few minutes.
+      unlocked: Your account was successfully unlocked. You are now signed in.
+    user_passwords:
+      spree_user:
+        cannot_be_blank: 密码不可为空
+        no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+        send_instructions: You will receive an email with instructions about how to reset your password in a few minutes.
+        updated: Your password was changed successfully. You are now signed in.
+    user_registrations:
+      destroyed: Bye! Your account was successfully cancelled. We hope to see you again soon.
+      inactive_signed_up: 'You have signed up successfully. However, we could not sign you in because your account is %{reason}.'
+      signed_up: 您好！您已成功注册“时光彩贝”官网账户。
+      updated: 账户信息更新成功。
+    user_sessions:
+      signed_in: 成功登录。
+      signed_out: 成功退出。
+      already_signed_in: 您已登录过了。
+  errors:
+    messages:
+      already_confirmed: 已经确认过了。
+      email_is_invalid: Email地址无效
+      no_phone_associated: 找不到关联的手机号
+      not_found: '不存在'
+      not_locked: '未被锁定'
+      not_saved:
+        one: '有1个错误导致 %{resource} 信息保存失败:'
+        other: '有%{count}个错误导致 %{resource} 信息保存失败:'
+      sms_already_confirmed: '此动态验证码已被使用过'
+      sms_token_invalid: '未被锁定'

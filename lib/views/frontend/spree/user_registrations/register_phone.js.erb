@@ -1,0 +1,14 @@
+<%= form_for resource, :as => :spree_user, :url => spree.verify_phone_path(@user) do |f| %>
+<div data-hook="signup_inside_form">
+    <p>
+        <%= f.label :phone, Spree.t(:phone) %><br />
+        <%= f.text_field :phone, class: 'title' %>
+    </p>
+    <p>
+        <%= f.label :sms_token, '验证码' %><br />
+        <%= f.text_field :sms_token, "", :maxlength => 6 %>
+    </p>
+
+    <p><%= f.submit '验证', :class => 'button primary', :tabindex => 3 %></p>
+</div>
+<% end %>

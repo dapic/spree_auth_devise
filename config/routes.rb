@@ -23,7 +23,12 @@ Spree::Core::Engine.add_routes do
     get '/password/change' => 'user_passwords#edit', :as => :edit_password
     put '/password/change' => 'user_passwords#update', :as => :update_password
     get '/confirm' => 'user_confirmations#show', :as => :email_confirmation if Spree::Auth::Config[:confirmable]
+    post '/register_phone' => 'user_registrations#register_phone', :as => :register_phone
+    post '/verify_phone' =>  'user_registrations#verify_phone', :as => :verify_phone
+    post '/create_password' =>  'user_registrations#create_password', :as => :create_password
+    post '/signup_with_phone' =>  'user_registrations#register_with_phone', :as => :register_with_phone
   end
+     # map.user_root '/users', controller: 'users' # creates user_root_path
 
   get '/checkout/registration' => 'checkout#registration', :as => :checkout_registration
   put '/checkout/registration' => 'checkout#update_registration', :as => :update_checkout_registration

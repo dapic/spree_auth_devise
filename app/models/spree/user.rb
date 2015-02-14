@@ -3,7 +3,7 @@ module Spree
     include UserAddress
     include UserPaymentSource
 
-    attr_accessor :login
+    # attr_accessor :login
 #    binding.pry
     devise :database_authenticatable, :registerable, :recoverable,
            :rememberable, :trackable, :validatable, :encryptable, :encryptor => 'authlogic_sha512'
@@ -16,6 +16,7 @@ module Spree
     has_many :orders
 
     before_validation :set_login
+    # before_validation :set_sms_confirmation_token if trying_phone_registration
 
     users_table_name = User.table_name
     roles_table_name = Role.table_name
@@ -44,15 +45,51 @@ module Spree
     end
 
     validates :phone,
-      presence: true,
+      # presence: true,
+      allow_blank: true,
       uniqueness: { case_sensitive: false },
       numericality: true,
       length: { is: 11 }
 
+    validate :phone_or_email
+
     protected
-      def password_required?
-        !persisted? || password.present? || password_confirmation.present?
+    #   def password_required?
+    #     binding.pry
+    #     # user_authentications.empty? &&
+    #     !persisted? || !(phone? && sms_confirmatio_token? ) || password.present? || password_confirmation.present?
+    #   end
+
+      # determines if am SMS is automatically sent after signup
+      def sms_confirmation_required?
+        self.phone ? super : false
       end
+
+      # this is for email
+      def confirmation_required?
+        self.email ? super : false
+      end
+
+    # if using oauth, that module should set the "login"
+    def email_required?
+      (self.phone.present? || self.login.present? ) ? false : super
+    end
+
+    def password_required?
+      binding.pry
+      awaiting_phone_verification? ? false : super
+    end
+
+    def awaiting_phone_verification?
+      # binding.pry
+      !persisted? && self.phone?
+      # (self.phone? && self.sms_confirmation_token?)
+    end
+
+    def root_path
+      '/'
+    end
+
 
     private
 
@@ -67,6 +104,12 @@ module Spree
         self.password = SecureRandom.hex(8)
         self.password_confirmation = self.password
         self.save
+      end
+
+      def phone_or_email
+        if (phone.blank? && email.blank?)
+          errors.add(:base, '手机号或Email地址')
+        end
       end
   end
 end

@@ -1,0 +1,27 @@
+<% @body_id = 'signup' %>
+
+<%= render :partial => 'spree/shared/error_messages', :locals => { :target => @user } %>
+
+<div id="new-customer">
+  <h6><%= Spree.t(:new_customer) %></h6>
+
+  <div data-hook="signup">
+    <%= form_for resource, :as => :spree_user, :method => :post, :remote => true, :url => spree.verify_phone_path() do |f| %>
+        <div data-hook="signup_inside_form">
+          <p>
+            <%= f.label :phone, Spree.t(:phone) %><br />
+            <%= f.text_field :phone, class: 'title' %>
+          </p>
+          <p><%=label_tag :sms_token %><br />
+            <%=text_field_tag :sms_token, "", :maxlength => 5%></p>
+
+          <p><%= f.submit '验证', :class => 'button primary', :tabindex => 3 %></p>
+        </div>
+    <% end %>
+    <%= Spree.t(:or) %>&nbsp;<%= link_to Spree.t(:login_as_existing), spree.login_path %>
+
+  </div>
+
+</div>
+
+<div data-hook="login_extras"></div>

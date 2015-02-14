@@ -6,12 +6,58 @@
   <h6><%= Spree.t(:new_customer) %></h6>
 
   <div data-hook="signup">
-    <%= form_for resource, :as => :spree_user, :url => spree.registration_path(@user) do |f| %>
+    <%= form_for resource, :as => :spree_user, :method => :post, :url => spree.register_with_phone_path() do |f| %>
       <div data-hook="signup_inside_form">
-        <%= render :partial => 'spree/shared/user_form', :locals => { :f => f } %>
-        <p><%= f.submit Spree.t(:create), :class => 'button primary' %></p>
+        <p>
+          <%= f.label :phone, Spree.t(:phone) %><br />
+          <%= f.text_field :phone, class: 'title' %>
+        </p>
+        <p>
+          <%=label_tag :sms_token %>
+          <%=text_field_tag :sms_token, "", :maxlength => 6 %>
+          <%= f.submit '发验证码', :class => 'button primary', :name => 'create_sms_token' %>
+        </p>
+        <div id="password-credentials">
+          <p>
+            <%= f.label :password, Spree.t(:password) %><br />
+            <%= f.password_field :password, class: 'title' %>
+          </p>
+
+          <p>
+            <%= f.label :password_confirmation, Spree.t(:confirm_password) %><br />
+            <%= f.password_field :password_confirmation, class: 'title' %>
+          </p>
+          <p><%= f.submit '注册', :class => 'button primary', :tabindex => 3 %></p>
+
+        </div>
       </div>
     <% end %>
+    <%= Spree.t(:or) %>
+    <%= form_for resource, :as => :spree_user, :method => :post, :url => spree.registration_path(@user) do |f| %>
+        <div data-hook="signup_inside_form">
+          <p>
+            <%= f.label :email, Spree.t(:email) %><br />
+            <%= f.email_field :email, class: 'title' %>
+            blahll
+          </p>
+          <% if spree_current_user.nil? || spree_current_user.password_required? %>
+              <div id="password-credentials">
+                <p>
+                  <%= f.label :password, Spree.t(:password) %><br />
+                  <%= f.password_field :password, class: 'title' %>
+                </p>
+
+                <p>
+                  <%= f.label :password_confirmation, Spree.t(:confirm_password) %><br />
+                  <%= f.password_field :password_confirmation, class: 'title' %>
+                </p>
+                <p><%= f.submit '注册', :class => 'button primary', :tabindex => 3 %></p>
+
+              </div>
+          <% end %>
+        </div>
+    <% end %>
+
     <%= Spree.t(:or) %>&nbsp;<%= link_to Spree.t(:login_as_existing), spree.login_path %>
 
   </div>
